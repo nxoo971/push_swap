@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 20:12:16 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/22 00:55:45 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/22 02:34:26 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ void		rotate(t_stack **s);
 void		rr(t_stack **a, t_stack **b);
 void		r_rotate(t_stack **s);
 void		rrr(t_stack **a, t_stack **b);
+// algo.c
+void		algo(t_stack **a, t_stack **b);
 
 #endif

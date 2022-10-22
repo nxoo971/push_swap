@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 23:03:11 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/22 00:59:50 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/22 04:06:13 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,12 @@ int	main(int ac, const char **av)
 		if ((pile.a = write_args_in_stack(datas, ac - 1)) != NULL)
 		{
 			tmp = pile.a;
-			swap(tmp);
+			ft_printf("\n\t{bggreen}Before {yellow}Stack {red}A{reset}\n\n");
+			print_all_stack(tmp);
+
+			algo(&tmp, &pile.b);
+
+			/*swap(tmp);
 			push(&pile.b, &tmp);
 			push(&pile.b, &tmp);
 			push(&pile.b, &tmp);
@@ -34,7 +39,7 @@ int	main(int ac, const char **av)
 			swap(tmp);
 			push(&tmp, &pile.b);
 			push(&tmp, &pile.b);
-			push(&tmp, &pile.b);
+			push(&tmp, &pile.b);*/
 
 			ft_printf("\n\t{yellow}Stack {red}A{reset}\n\n");
 			print_all_stack(tmp);
