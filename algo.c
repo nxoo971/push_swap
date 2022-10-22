@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 02:20:20 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/22 04:49:18 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/22 23:18:58 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int		is_smaller(int a, int b)
 
 int		is_sorted(t_stack *a, int (*f)(int, int))
 {
+	if (!a || !a->prev)
+		return (1);
 	while (a->prev)
 	{
 		if (f(a->data, a->prev->data))
@@ -91,10 +93,7 @@ void	algo(t_stack **a, t_stack **b)
 	if (!start->prev)
 		return ;
 
-/* * Check first element */
 	check_swap(a, 1);
-/* ********************* */
-
 	while ((*a)->prev)
 	{
 		if ((*a)->data > (*a)->prev->data)
@@ -102,14 +101,12 @@ void	algo(t_stack **a, t_stack **b)
 		check_swap(a, 1);
 		if (is_sorted(*a, &is_bigger) && is_sorted(*b, &is_smaller))
 		{
-			push_all(a, b);
+			if (*b)
+				push_all(a, b);
 			return ;
 		}
 		if (*b && (*b)->prev)
 			check_swap(b, 0);
 		*a = (*a)->prev;
-		if (!*a)
-			*a = start;
 	}
-	*a = start;
 }
