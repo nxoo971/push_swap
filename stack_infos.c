@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 03:15:11 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/21 22:24:51 by nxoo             ###   ########.fr       */
+/*   Created: 2022/10/26 21:04:36 by nxoo              #+#    #+#             */
+/*   Updated: 2022/10/26 21:06:26 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,16 @@ void	print_stack(const t_stack *stack)
 				"act:	%p\n"
 				"prev:	%p\n"
 				"next:	%p\n", stack->data, stack, stack->prev, stack->next);
+	ft_printf("\t-----------------------\n");
+}
+
+void	print_pile(const t_pile *pile)
+{
+	if (!pile)
+		return ;
+	ft_printf(	"len:	%d\n"
+				"first:	%p\n"
+				"last:	%p\n", pile->length, pile->first, pile->last);
 	ft_printf("\t-----------------------\n");
 }
 

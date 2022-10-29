@@ -1,4 +1,4 @@
-SRCS	= main.c stored_args.c stack_infos.c stack_utilities.c push_swap.c rotate.c algo.c
+SRCS	= main.c pile_utils.c stack_utils.c stack_infos.c parser.c actions.c sort.c tri_fusion.c
 
 NAME	= push_swap
 
