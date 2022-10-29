@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:12:23 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/29 04:51:04 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 00:40:42 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,3 @@ void	r_rotate(t_push_swap *a)
 	a->stack = a->stack->next;
 	pile->first = stack_last;
 }
-
-
-		// et les plus grand après

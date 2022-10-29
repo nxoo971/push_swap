@@ -1,16 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack_infos.c                                      :+:      :+:    :+:   */
+/*   print_infos.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 21:04:36 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/26 21:06:26 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 00:54:20 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	print_tab(int *tab, int size)
+{
+	for (int i = 0; i < size; i++)
+		ft_printf("%d, ", tab[i]);
+	ft_printf("\n");
+}
 
 void	print_stack(const t_stack *stack)
 {

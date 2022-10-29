@@ -5,71 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/27 02:30:22 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/27 19:01:04 by nxoo             ###   ########.fr       */
+/*   Created: 2022/10/30 00:42:19 by nxoo              #+#    #+#             */
+/*   Updated: 2022/10/30 00:51:57 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// 1	1	2	2	3	3
-// 2	3	1	3	1	2
-// 3	2	3	1	2	1
-
-void	exec_push(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	if (specifier == 'a')
-		push(ptr_a, ptr_b);
-	if (specifier == 'b')
-		push(ptr_b, ptr_a);
-}
-
-void	exec_swap(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	if (specifier == 'a')
-		swap(ptr_a->stack);
-	if (specifier == 'b')
-		swap(ptr_b->stack);
-}
-
-void	exec_rotate(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	if (specifier == 'a')
-		rotate(ptr_a);
-	if (specifier == 'b')
-		rotate(ptr_b);
-}
-
-void	exec_r_rotate(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	if (specifier == 'a')
-		r_rotate(ptr_a);
-	if (specifier == 'b')
-		r_rotate(ptr_b);
-}
-
-void	exec_args(const char *actions, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	while (*actions)
-	{
-		if (*actions == 'p')
-			exec_push(*++actions, ptr_a, ptr_b);
-		if (*actions == 's')
-			exec_swap(*++actions, ptr_a, ptr_b);
-		if (*actions == 'r') {
-			if (*++actions == 'r')
-				exec_r_rotate(*++actions, ptr_a, ptr_b);
-			else
-				exec_rotate(*actions, ptr_a, ptr_b);
-		}
-		actions++;
-	}
-}
-
-// 1	1	2	2	3	3
-// 2	3	1	3	1	2
-// 3	2	3	1	2	1
-
+static \
 void	sort_3(t_push_swap *ptr_a, t_push_swap *ptr_b)
 {
 	t_pile	*pile;
@@ -105,36 +48,53 @@ void	sort_3(t_push_swap *ptr_a, t_push_swap *ptr_b)
 	}
 }
 
-int		getmin(t_stack *s)
+void	sort(t_push_swap *a, t_push_swap *b)
 {
-	int	min;
-
-	min = s->data;
-	s = s->prev;
-	while (s)
+	if (a->pile->length <= 3)
 	{
-		if (s->data < min)
-			min = s->data;
-		s = s->prev;
+		if (a->pile->length == 2) {
+			if (a->pile->first->data > a->pile->last->data)
+				swap(a->stack);
+		}
+		else if (a->pile->length == 3)
+			sort_3(a, b);
+		return ;
 	}
-	return (min);
-}
+	
+// tout push de l'autre côter sauf 3
+	while (a->pile->length > 3)
+		push(b, a);
+// les triés
+	sort_3(a, 0);
 
-void	sort(t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	t_pile	*pile;
-	t_stack	*stack;
-	int		len;
-
-	pile = ptr_a->pile;
-	stack = ptr_a->stack;
-	len = pile->length;
-
-	int min = getmin(ptr_a->stack);
-	while (len > 3)
+// tant qu'il y a des elems dans ma pile alors ->
+	while (b->pile->length)
 	{
-		push(ptr_b, ptr_a);
-		len--;
+		t_stack	*first = b->pile->first;
+			// s'il est supérieur au premier de la stack A alors ->
+		if (first->data > a->pile->last->data)
+		{
+			/*
+				il est supérieur au dernier de la liste, alors on le push dans A et on le rotate
+				afin de le placer en fin de liste
+			*/
+			push(a, b);
+			rotate(a);
+		}
+		else
+		{
+			int	rotated = 0;
+
+			while (first->data > a->pile->first->data)
+			{
+				rotate(a);
+				rotated++;
+			}
+			/* on le place maintenant */
+			push(a, b);
+			/* on remet en place les rotateds */
+			while (--rotated >= 0)
+				r_rotate(a);
+		}
 	}
-	sort_3(ptr_a, ptr_b);
 }
