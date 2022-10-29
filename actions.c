@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:12:23 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 00:40:42 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 01:27:10 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	swap(const t_stack *stack)
 {
 	if (stack && stack->prev)
-		ft_swap(&stack->data, &stack->prev->data, sizeof(int));
+		ft_swap((void *)&stack->data, &stack->prev->data, sizeof(int));
 }
 
 void	ss(const t_stack *a, const t_stack *b)
@@ -29,7 +29,6 @@ void	push(t_push_swap *dst, t_push_swap *src)
 	t_stack	*pdst;
 	t_stack	*psrc;
 	t_stack	*tmp;
-	t_pile	*piletmp;
 
 	if (!src->pile || !src->stack)
 		return ;

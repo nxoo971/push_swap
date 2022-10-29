@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:50:05 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/26 21:12:05 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 01:37:36 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	*parse_av(int ac, char **av)
 		{
 			if (!ft_isdigit(*start))
 			{
-				arraydel(&res);
+				delmem((void **)&res);
 				return (0);
 			}
 			start++;

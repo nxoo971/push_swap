@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:37:01 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 00:55:10 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 01:37:40 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ int	main(int ac, char **av)
 	t_push_swap	pushswap_b;
 
 	int *datas = parse_av(ac - 1, av);
+	if (!datas) {
+		ft_putstr_fd("Error\n", 2);
+		return (0);
+	}
 	pushswap_a.stack = write_args_in_stack(&pushswap_a.pile, datas, ac - 1);
 	sort(&pushswap_a, &pushswap_b);
 
@@ -46,6 +50,9 @@ int	main(int ac, char **av)
 	ft_printf("\n\t {bggreen}PILE B{reset}\n\n");
 	print_pile(pushswap_b.pile);
 
-	arraydel(&datas);
+	delmem((void **)&datas);
+	stackdel(&pushswap_a.stack);
+	piledel(&pushswap_a.pile);
+	piledel(&pushswap_b.pile);
 	return (0);
 }

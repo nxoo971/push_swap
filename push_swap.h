@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:43:44 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 00:55:25 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 01:36:11 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void		exec_args(const char *actions, t_push_swap *ptr_a, t_push_swap *ptr_b);
 //	sort.c
 void		sort(t_push_swap *ptr_a, t_push_swap *ptr_b);
 //	delmem.c
-void		arraydel(int **ptr);
+void		delmem(void **ptr);
+void		stackdel(t_stack **s);
+void		piledel(t_pile **p);
 
 #endif
