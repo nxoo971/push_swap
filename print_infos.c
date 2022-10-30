@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 21:04:36 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 03:00:12 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 03:21:06 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_stack(const t_stack *stack)
 	if (!stack)
 		return ;
 	ft_printf("data:	%d\n", stack->data);
-	ft_printf("act:		%p\n", stack);
+	ft_printf("act:	%p\n", stack);
 	ft_printf("prev:	%p\n", stack->prev);
 	ft_printf("next:	%p\n", stack->next);
 	ft_printf("\t-----------------------\n");
@@ -37,7 +37,7 @@ void	print_pile(const t_pile *pile)
 {
 	if (!pile)
 		return ;
-	ft_printf("len:		%p\n", pile->length, pile->first, pile->last);
+	ft_printf("len:	%d\n", pile->length);
 	ft_printf("first:	%p\n", pile->first);
 	ft_printf("last:	%p\n", pile->last);
 	ft_printf("\t-----------------------\n");
