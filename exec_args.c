@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 02:30:22 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 02:07:15 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:57:06 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define MAX_ACTION	'r' + 'r' + 'a' + 1
 
-int		is_smaller_than_max_action(const char *s, int max)
+int	is_smaller_than_max_action(const char *s, int max)
 {
 	int	res;
 
@@ -29,13 +29,14 @@ void	exec_args(const char *actions, t_push_swap *ptr)
 	const char					*tmp;
 	t_swapaction				tmpaction;
 	static const t_swapaction	swapactions[MAX_ACTION] = {
-		['s' + 'a'] = & swap,
-		['r' + 'a'] = & rotate,
-		['r' + 'r' + 'a'] = & r_rotate,
+	['s' + 'a'] = & swap,
+	['r' + 'a'] = & rotate,
+	['r' + 'r' + 'a'] = & r_rotate,
 	};
 
 	tmpaction = 0;
-	while ((tmp = ft_strchr(actions, 'a')) != NULL && actions[+1] != '\0')
+	tmp = ft_strchr(actions, 'a');
+	while (tmp && actions[+1] != '\0')
 	{
 		if (tmp - actions + 1 == 3)
 		{
@@ -47,11 +48,12 @@ void	exec_args(const char *actions, t_push_swap *ptr)
 			if (is_smaller_than_max_action(actions, 2))
 				tmpaction = swapactions[*actions + actions[+1]];
 		}
-		if (tmpaction) {
+		if (tmpaction)
+		{
 			tmpaction(ptr);
 			tmpaction = 0;
 		}
 		actions = tmp + 1;
+		tmp = ft_strchr(actions, 'a');
 	}
 }
-

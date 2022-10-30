@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:37:43 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/27 18:14:08 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:55:19 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_stack	*stack_new(t_pile **pile, int data)
 {
-	t_stack *new;
+	t_stack	*new;
 
 	new = malloc(sizeof(t_stack));
 	if (new)
@@ -42,7 +42,6 @@ void	stack_add(t_pile **pile, t_stack **stack, int data)
 	else
 	{
 		ptr_last = (*pile)->last;
-
 		last = stack_new(pile, data);
 		last->next = ptr_last;
 		ptr_last->prev = last;

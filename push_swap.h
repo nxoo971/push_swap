@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:43:44 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 02:08:23 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:54:50 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 
 # include "ft_printf/ft_printf.h"
 
-typedef struct	s_stack
+typedef struct s_stack
 {
 	struct s_stack	*next;
 	struct s_stack	*prev;
 	int				data;
 }	t_stack;
 
-typedef	struct	s_pile
+typedef struct s_pile
 {
 	t_stack	*first;
 	t_stack	*last;
 	int		length;
 }	t_pile;
 
-typedef struct	s_push_swap
+typedef struct s_push_swap
 {
 	t_stack	*stack;
 	t_pile	*pile;
@@ -58,6 +58,7 @@ void		r_rotate(t_push_swap *a);
 void		exec_args(const char *actions, t_push_swap *ptr);
 //	sort.c
 void		sort(t_push_swap *ptr_a, t_push_swap *ptr_b);
+void		sort_3(t_push_swap *ptr);
 //	memdel.c
 void		memdel(void **ptr);
 void		stackdel(t_stack **s);

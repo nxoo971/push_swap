@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:50:05 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 01:44:55 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 03:03:01 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	*parse_av(int ac, char **av)
 
 	if (!av || !*av)
 		return (0);
-	if (!(res = malloc(sizeof(int) * ac)))
+	res = malloc(sizeof(int) * ac);
+	if (!res)
 		return (0);
 	index = 0;
 	while (*++av)
