@@ -6,14 +6,35 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 00:42:19 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 02:03:53 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:21:21 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 static \
-void	sort_3(t_push_swap *ptr_a)
+void	sub_exec_args_according_to_abc(t_push_swap *ptr, int a, int b, int c)
+{
+	if (a < b && a < c && b > c)
+		exec_args("rrasa", ptr);
+	else if (a > b && a > c)
+	{
+		if (b < c)
+			exec_args("ra", ptr);
+		else
+			exec_args("sarra", ptr);
+	}
+	else
+	{
+		if (a > c)
+			exec_args("rra", ptr);
+		else
+			exec_args("sa", ptr);
+	}
+}
+
+static \
+void	sort_3(t_push_swap *ptr)
 {
 	t_pile	*pile;
 	t_stack	*stack;
@@ -21,31 +42,15 @@ void	sort_3(t_push_swap *ptr_a)
 	int		b;
 	int		c;
 
-	pile = ptr_a->pile;
-	stack = ptr_a->stack;
+	pile = ptr->pile;
+	stack = ptr->stack;
 	a = pile->first->data;
 	b = pile->first->prev->data;
 	c = pile->last->data;
-	if (a < b && a < c)
-	{
-		if (b < c)
-			return ;
-		exec_args("rrasa", ptr_a);
-	}
-	else if (a > b && a > c)
-	{
-		if (b < c)
-			exec_args("ra", ptr_a);
-		else
-			exec_args("sarra", ptr_a);
-	}
-	else
-	{
-		if (a > c)
-			exec_args("rra", ptr_a);
-		else
-			exec_args("sa", ptr_a);
-	}
+
+	if (a < b && a < c && b < c)
+		return ;
+	sub_exec_args_according_to_abc(ptr, a, b, c);
 }
 
 void	sort(t_push_swap *a, t_push_swap *b)
