@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 00:42:19 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 02:54:04 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 19:41:19 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ void	sort(t_push_swap *a, t_push_swap *b)
 {
 	int	rotated;
 
-	while (a->pile->length > 3)
+	while (a->pile->length > 3) {
 		push(b, a);
+		ft_printf("pb\n");
+	}
 	sort_3(a);
 	while (b->pile->first)
 	{
@@ -64,6 +66,7 @@ void	sort(t_push_swap *a, t_push_swap *b)
 		{
 			push(a, b);
 			rotate(a);
+			ft_printf("pa\nra\n");
 		}
 		else
 		{
@@ -72,10 +75,14 @@ void	sort(t_push_swap *a, t_push_swap *b)
 			{
 				rotate(a);
 				rotated++;
+				ft_printf("ra\n");
 			}
 			push(a, b);
-			while (--rotated >= 0)
+			ft_printf("pa\n");
+			while (--rotated >= 0) {
 				r_rotate(a);
+				ft_printf("rra\n");
+			}
 		}
 	}
 }

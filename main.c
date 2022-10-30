@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:37:01 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 03:01:22 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 19:41:26 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ int	main(int ac, char **av)
 	else
 		sort(&pushswap_a, &pushswap_b);
 
-	ft_printf("\n\t {bgred}STACK A{reset}\n\n");
-	print_all_stack(pushswap_a.stack);
-	ft_printf("\n\t {bggreen}PILE A{reset}\n\n");
-	print_pile(pushswap_a.pile);
+	// ft_printf("\n\t {bgred}STACK A{reset}\n\n");
+	// print_all_stack(pushswap_a.stack);
+	// ft_printf("\n\t {bggreen}PILE A{reset}\n\n");
+	// print_pile(pushswap_a.pile);
 
-	ft_printf("\n\t {bgred}STACK B{reset}\n\n");
-	print_all_stack(pushswap_b.stack);
-	ft_printf("\n\t {bggreen}PILE B{reset}\n\n");
-	print_pile(pushswap_b.pile);
+	// ft_printf("\n\t {bgred}STACK B{reset}\n\n");
+	// print_all_stack(pushswap_b.stack);
+	// ft_printf("\n\t {bggreen}PILE B{reset}\n\n");
+	// print_pile(pushswap_b.pile);
 
 	memdel((void **)&datas);
 	stackdel(&pushswap_a.stack);

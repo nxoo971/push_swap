@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 02:30:22 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 02:57:06 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 23:56:14 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	exec_args(const char *actions, t_push_swap *ptr)
 		}
 		if (tmpaction)
 		{
+			ft_putnendl(actions, tmp - actions + 1);
 			tmpaction(ptr);
 			tmpaction = 0;
 		}
