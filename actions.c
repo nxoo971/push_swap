@@ -6,22 +6,16 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:12:23 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 01:27:10 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:45:27 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap(const t_stack *stack)
+void		swap(t_push_swap *src)
 {
-	if (stack && stack->prev)
-		ft_swap((void *)&stack->data, &stack->prev->data, sizeof(int));
-}
-
-void	ss(const t_stack *a, const t_stack *b)
-{
-	swap(a);
-	swap(b);
+	if (src->stack && src->stack->prev)
+		ft_swap((void *)&src->stack->data, &src->stack->prev->data, sizeof(int));
 }
 
 void	push(t_push_swap *dst, t_push_swap *src)

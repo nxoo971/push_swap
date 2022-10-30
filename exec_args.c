@@ -6,62 +6,52 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 02:30:22 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 00:46:18 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:07:15 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-static \
-void	exec_push(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
+
+#define MAX_ACTION	'r' + 'r' + 'a' + 1
+
+int		is_smaller_than_max_action(const char *s, int max)
 {
-	if (specifier == 'a')
-		push(ptr_a, ptr_b);
-	if (specifier == 'b')
-		push(ptr_b, ptr_a);
+	int	res;
+
+	res = 0;
+	while (--max >= 0 && *s)
+		res += *s++;
+	return (res <= MAX_ACTION);
 }
 
-static \
-void	exec_swap(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
+void	exec_args(const char *actions, t_push_swap *ptr)
 {
-	if (specifier == 'a')
-		swap(ptr_a->stack);
-	if (specifier == 'b')
-		swap(ptr_b->stack);
-}
+	const char					*tmp;
+	t_swapaction				tmpaction;
+	static const t_swapaction	swapactions[MAX_ACTION] = {
+		['s' + 'a'] = & swap,
+		['r' + 'a'] = & rotate,
+		['r' + 'r' + 'a'] = & r_rotate,
+	};
 
-static \
-void	exec_rotate(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	if (specifier == 'a')
-		rotate(ptr_a);
-	if (specifier == 'b')
-		rotate(ptr_b);
-}
-
-static \
-void	exec_r_rotate(const char specifier, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	if (specifier == 'a')
-		r_rotate(ptr_a);
-	if (specifier == 'b')
-		r_rotate(ptr_b);
-}
-
-void	exec_args(const char *actions, t_push_swap *ptr_a, t_push_swap *ptr_b)
-{
-	while (*actions)
+	tmpaction = 0;
+	while ((tmp = ft_strchr(actions, 'a')) != NULL && actions[+1] != '\0')
 	{
-		if (*actions == 'p')
-			exec_push(*++actions, ptr_a, ptr_b);
-		if (*actions == 's')
-			exec_swap(*++actions, ptr_a, ptr_b);
-		if (*actions == 'r') {
-			if (*++actions == 'r')
-				exec_r_rotate(*++actions, ptr_a, ptr_b);
-			else
-				exec_rotate(*actions, ptr_a, ptr_b);
+		if (tmp - actions + 1 == 3)
+		{
+			if (is_smaller_than_max_action(actions, 3))
+				tmpaction = swapactions[*actions + actions[+1] + actions[+2]];
 		}
-		actions++;
+		if (tmp - actions + 1 == 2)
+		{
+			if (is_smaller_than_max_action(actions, 2))
+				tmpaction = swapactions[*actions + actions[+1]];
+		}
+		if (tmpaction) {
+			tmpaction(ptr);
+			tmpaction = 0;
+		}
+		actions = tmp + 1;
 	}
 }
 

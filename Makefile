@@ -1,4 +1,4 @@
-SRCS	= main.c pile_utils.c stack_utils.c print_infos.c parser.c actions.c sort.c exec_args.c delmem.c
+SRCS	= main.c pile_utils.c stack_utils.c print_infos.c parser.c actions.c sort.c exec_args.c memdel.c
 
 NAME	= push_swap
 

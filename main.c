@@ -6,26 +6,11 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:37:01 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 01:37:40 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:47:55 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-t_stack	*write_args_in_stack(t_pile **pile, int *datas, int len)
-{
-	t_stack	*stack;
-	int		i;
-
-	i = 0;
-	stack = 0;
-	while (i < len)
-	{
-		stack_add(pile, &stack, datas[i]);
-		i++;
-	}
-	return (stack);
-}
 
 int	main(int ac, char **av)
 {
@@ -50,9 +35,9 @@ int	main(int ac, char **av)
 	ft_printf("\n\t {bggreen}PILE B{reset}\n\n");
 	print_pile(pushswap_b.pile);
 
-	delmem((void **)&datas);
+	/*memdel((void **)&datas);
 	stackdel(&pushswap_a.stack);
 	piledel(&pushswap_a.pile);
-	piledel(&pushswap_b.pile);
+	piledel(&pushswap_b.pile);*/
 	return (0);
 }

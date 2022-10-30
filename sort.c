@@ -6,14 +6,14 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 00:42:19 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 00:51:57 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/30 02:03:53 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 static \
-void	sort_3(t_push_swap *ptr_a, t_push_swap *ptr_b)
+void	sort_3(t_push_swap *ptr_a)
 {
 	t_pile	*pile;
 	t_stack	*stack;
@@ -30,21 +30,21 @@ void	sort_3(t_push_swap *ptr_a, t_push_swap *ptr_b)
 	{
 		if (b < c)
 			return ;
-		exec_args("rrasa", ptr_a, ptr_b);
+		exec_args("rrasa", ptr_a);
 	}
 	else if (a > b && a > c)
 	{
 		if (b < c)
-			exec_args("ra", ptr_a, ptr_b);
+			exec_args("ra", ptr_a);
 		else
-			exec_args("sarra", ptr_a, ptr_b);
+			exec_args("sarra", ptr_a);
 	}
 	else
 	{
 		if (a > c)
-			exec_args("rra", ptr_a, ptr_b);
+			exec_args("rra", ptr_a);
 		else
-			exec_args("sa", ptr_a, ptr_b);
+			exec_args("sa", ptr_a);
 	}
 }
 
@@ -54,10 +54,10 @@ void	sort(t_push_swap *a, t_push_swap *b)
 	{
 		if (a->pile->length == 2) {
 			if (a->pile->first->data > a->pile->last->data)
-				swap(a->stack);
+				swap(a);
 		}
 		else if (a->pile->length == 3)
-			sort_3(a, b);
+			sort_3(a);
 		return ;
 	}
 	
@@ -65,7 +65,7 @@ void	sort(t_push_swap *a, t_push_swap *b)
 	while (a->pile->length > 3)
 		push(b, a);
 // les triés
-	sort_3(a, 0);
+	sort_3(a);
 
 // tant qu'il y a des elems dans ma pile alors ->
 	while (b->pile->length)
