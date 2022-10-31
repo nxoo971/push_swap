@@ -6,7 +6,7 @@
 /*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 00:42:19 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 19:41:19 by nxoo             ###   ########.fr       */
+/*   Updated: 2022/10/31 01:49:33 by nxoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,38 +51,85 @@ void	sort_3(t_push_swap *ptr)
 	sub_exec_args_according_to_abc(ptr, a, b, c);
 }
 
-void	sort(t_push_swap *a, t_push_swap *b)
+int		start_toporbottom(t_pile *tosearch, t_pile *tofind)
+{
+	t_stack	*stack;
+	int	index;
+	int	data;
+
+	index = 0;
+	data = tofind->first->data;
+	stack = tosearch->first;
+	while (stack)
+	{
+		if (stack->data == data)
+			break ;
+		stack = stack->prev;
+		index++;
+	}
+	return (tosearch->length / 2 > index);
+}
+
+int		exec_ra_rra(t_push_swap *a, t_push_swap *b, void (f)(t_push_swap *))
 {
 	int	rotated;
 
-	while (a->pile->length > 3) {
-		push(b, a);
-		ft_printf("pb\n");
+	rotated = 0;
+	while (b->pile->first->data > a->pile->first->data)
+	{
+		f(a);
+		rotated++;
 	}
+	return (rotated);
+}
+
+int		is_minimum(int data, t_stack *stack)
+{
+	while (stack)
+	{
+		if (stack->data < data)
+			return (0);
+		stack = stack->prev;
+	}
+	return (1);
+}
+
+void	sort(t_push_swap *a, t_push_swap *b)
+{
+	int	rotated;
+	int	already; // to avoid starting is_minimum function and his search in the entire Pile B ..
+
+	while (a->pile->length > 3)
+		push(b, a);
 	sort_3(a);
+	already = 0;
 	while (b->pile->first)
 	{
 		if (b->pile->first->data > a->pile->last->data)
 		{
 			push(a, b);
 			rotate(a);
-			ft_printf("pa\nra\n");
-		}
+		}// tous les autres "cas" ici
 		else
 		{
-			rotated = 0;
-			while (b->pile->first->data > a->pile->first->data)
+			if (!already && is_minimum(b->pile->first->data, b->pile->first->prev) && b->pile->first->data > a->pile->first->data)
 			{
-				rotate(a);
-				rotated++;
-				ft_printf("ra\n");
+				already++;
+				push(a, b);
+				swap(a);
 			}
-			push(a, b);
-			ft_printf("pa\n");
-			while (--rotated >= 0) {
-				r_rotate(a);
-				ft_printf("rra\n");
+			else
+			{
+				if (!start_toporbottom(a->pile, b->pile))
+					rotated = exec_ra_rra(a, b, & rotate);
+				else
+					rotated = exec_ra_rra(a, b, & r_rotate);
+
+				push(a, b);
+				while (--rotated >= 0)
+					r_rotate(a);
 			}
+			
 		}
 	}
 }
