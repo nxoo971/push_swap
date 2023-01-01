@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 19:43:44 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/30 02:54:50 by nxoo             ###   ########.fr       */
+/*   Created: 2022/11/27 21:35:35 by jewancti          #+#    #+#             */
+/*   Updated: 2022/12/09 07:18:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 
 # include "ft_printf/ft_printf.h"
 
-typedef struct s_stack
-{
-	struct s_stack	*next;
-	struct s_stack	*prev;
-	int				data;
-}	t_stack;
-
 typedef struct s_pile
 {
-	t_stack	*first;
-	t_stack	*last;
-	int		length;
+	int				data;
+	struct s_pile	*prev;
+	struct s_pile	*next;
 }	t_pile;
+
+typedef struct s_stack
+{
+	t_pile	*first;
+	t_pile	*last;
+	int		size;
+}	t_stack;
 
 typedef struct s_push_swap
 {
@@ -35,33 +35,78 @@ typedef struct s_push_swap
 	t_pile	*pile;
 }	t_push_swap;
 
-typedef void	(*t_swapaction)(t_push_swap *);
+typedef struct s_bestmove
+{
+	int	pair;
+	int	index;
+	int	maxmove;
+	int	value;
+	int	ra;
+	int	rb;
+	int	is_ra_rb;
+	int	isrra_rrb;
+	int	isrr;
+	int	isrrr;
+	int	isrra_rb;
+	int	isrrb_ra;
+	int	isrrb;
+	int	isrra;
+}	t_bestmove;
+
+typedef void	(*t_move)(t_push_swap *ptr);
+typedef void	(*t_cmd)(t_push_swap *ptr_a, t_push_swap *ptr_b);
 
 //	pile_utils.c
-void		pile_update(t_pile **pile, t_stack *first, t_stack *last);
-// stack_utils.c
-t_stack		*stack_new(t_pile **pile, int data);
-void		stack_add(t_pile **pile, t_stack **stack, int data);
-//	parser.c
-int			*parse_av(int ac, char **av);
-t_stack		*write_args_in_stack(t_pile **pile, int *datas, int len);
-//	print_infos.c
-void		print_stack(const t_stack *stack);
-void		print_pile(const t_pile *pile);
-void		print_all_stack(const t_stack *stack);
-//	actions.c
-void		swap(t_push_swap *src);
-void		push(t_push_swap *dst, t_push_swap *src);
-void		rotate(t_push_swap *a);
-void		r_rotate(t_push_swap *a);
-//	exec_args.c
-void		exec_args(const char *actions, t_push_swap *ptr);
+t_pile		*create_elem(int data, t_stack **stack);
+void		update(t_stack **stack, t_pile *first, t_pile *last);
+void		add_elem(t_push_swap *ptr, int data);
+int			pile_is_sorted(t_pile *pile);
+//	parse_args.c
+int			*parse_args(int ac, char **av, t_push_swap *ptr, int *size);
+//	consign/*.c
+void		push(t_push_swap *ptr_a, t_push_swap *ptr_b);
+void		ss(t_push_swap *ptr_a, t_push_swap *ptr_b);
+void		s(t_push_swap *ptr);
+void		rotate(t_push_swap *ptr);
+void		r_rotate(t_push_swap *ptr);
+void		rr(t_push_swap *ptr_a, t_push_swap *ptr_b);
+void		rrr(t_push_swap *ptr_a, t_push_swap *ptr_b);
 //	sort.c
-void		sort(t_push_swap *ptr_a, t_push_swap *ptr_b);
-void		sort_3(t_push_swap *ptr);
-//	memdel.c
-void		memdel(void **ptr);
-void		stackdel(t_stack **s);
-void		piledel(t_pile **p);
+int			sort_3(t_push_swap *ptr);
+void		bubblesort(const int *tab, const int size);
+//	median.c
+void		do_median(t_push_swap *ptr_a, t_push_swap *ptr_b, int *array_args);
+//	count_move.c
+void		best_move(t_push_swap *ptr_a, t_push_swap *ptr_b);
+void		exec_move(t_push_swap *ptr_a, t_push_swap *ptr_b, \
+						t_bestmove bestmove);
+//	choice.c
+void		best(t_bestmove *bestmove);
+void		set_choice_rr(t_bestmove *bestmove);
+void		set_choice_rrr(t_bestmove *bestmove);
+//	find.c
+int			find_max(const t_push_swap ptr);
+int			find_min(const t_push_swap ptr);
+int			find_index_from_pile(const int value, t_push_swap *ptr);
+void		find_pair_from_pile(const int value, t_push_swap *ptr, \
+								t_bestmove *bestmove);
+t_bestmove	find_min_from_struct(t_bestmove *bestmove, int size);
+//	utils.c
+int			check_doublon(const int *tab, const int size);
+int			*arraynpiledup(t_push_swap *ptr, const int *tab, const int size);
+//	print.c
+void		print_stack(t_stack *stack);
+void		print_pile(t_pile *pile);
+void		print_struct(t_bestmove bestmove);
+void		print_all_struct(t_bestmove *bestmove, const int size);
+void		print_tab(const int *tab, const int size);
+//	free.c
+void		free_pile(t_push_swap ptr);
+void		exit_free_all(t_push_swap ptr_a, t_push_swap ptr_b, void *ptr);
+//	main.c
+
+//	bonus/*.c
+int			exec_cmd(const char *actions, \
+				t_push_swap *ptr_a, t_push_swap *ptr_b);
 
 #endif

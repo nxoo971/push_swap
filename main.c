@@ -3,113 +3,85 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 19:37:01 by nxoo              #+#    #+#             */
-/*   Updated: 2022/11/04 19:43:13 by nxoo             ###   ########.fr       */
+/*   Created: 2022/11/27 23:28:04 by jewancti          #+#    #+#             */
+/*   Updated: 2022/12/09 17:10:09 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int		is_min_(int *datas, const int size, int start, int curr)
+static \
+void	rearrange(t_push_swap *ptr)
 {
-	int value;
+	int	min;
+	int	index;
 
-	value = datas[start];
-	for (int i = start; i < size; i++)
-		if (datas[i] < value && datas[i] > curr)
-			return (0);
-	return (1);
+	min = find_min(*ptr);
+	index = find_index_from_pile(min, ptr);
+	if (index > ptr->stack->size / 2)
+	{
+		while (ptr->stack->first->data != min)
+		{
+			ft_printf("rra\n");
+			r_rotate(ptr);
+		}
+	}
+	else
+	{
+		while (ptr->stack->first->data != min)
+		{
+			ft_printf("ra\n");
+			rotate(ptr);
+		}
+	}
 }
 
-int		*max_suite(int *datas, int size, int *suitelen)
+static \
+int	case_pile_size_2(t_push_swap *ptr)
 {
-	int	**res;
-	int	*lengths;
-
-	res = malloc(sizeof(int *) * size);
-	for (int i = 0; i < size; i++)
-		res[i] = malloc(sizeof(int) * size);
-
-	lengths = malloc(sizeof(int) * size);
-	
-	/* array created */
-
-	int	index;
-	int	curr;
-	for (int i = 0; i < size; i++)
+	if (ptr->stack->size == 2 && ptr->pile->data > ptr->pile->prev->data)
 	{
-		index = 1;
-		res[i][0] = curr = datas[i];
-		for (int j = i; j < size; j++)
-		{
-			if (datas[j] > curr && is_min_(datas, size, j, curr)) {
-				res[i][index++] = datas[j];
-				curr = datas[j];
-			}
-		}
-		lengths[i] = index;
+		s(ptr);
+		ft_printf("sa\n");
 	}
+	return (pile_is_sorted(ptr->pile));
+}
 
-	/* got all suites */
-
-	int bigger = 0;
-	for (int i = 1; i < size; i++) {
-		if (lengths[i] > lengths[bigger]) {
-			bigger = i;
-		}
+void	algo(t_push_swap *ptr_a, t_push_swap *ptr_b)
+{
+	while (ptr_a->stack->size > 3)
+	{
+		push(ptr_b, ptr_a);
+		ft_printf("pb\n");
 	}
-	*suitelen = lengths[bigger];
-	return (res[bigger]);
+	sort_3(ptr_a);
+	while (ptr_b->stack && ptr_b->stack->size)
+		best_move(ptr_a, ptr_b);
 }
 
 int	main(int ac, char **av)
 {
-	t_push_swap	pushswap_a;
-	t_push_swap	pushswap_b;
-	int			*datas;
+	static t_push_swap	ptr_a = {.pile = 0, .stack = 0};
+	static t_push_swap	ptr_b = {.pile = 0, .stack = 0};
+	int					*array_args;
+	int					size_args;
 
-	datas = parse_av(ac - 1, av);
-	if (!datas)
-	{
-		ft_putstr_fd("Error\n", 2);
+	if (ac < 2)
 		return (0);
-	}
-	int len;
-	int *suite = max_suite(datas, ac - 1, &len);
-	print_tab(suite, len);
-	/*pushswap_a.stack = write_args_in_stack(&pushswap_a.pile, datas, ac - 1);
-	if (pushswap_a.pile->length <= 3)
-	{
-		if (pushswap_a.pile->length == 2)
-		{
-			if (pushswap_a.pile->first->data > pushswap_a.pile->last->data)
-				swap(&pushswap_a);
-		}
-		else if (pushswap_a.pile->length == 3)
-			sort_3(&pushswap_a);
-	}
-	else
-	{
-		tri_fusion(datas, 0, ac - 1);
-		sort(&pushswap_a, &pushswap_b);
-	}*/
-
-	// ft_printf("\n\t {bgred}STACK A{reset}\n\n");
-	// print_all_stack(pushswap_a.stack);
-	// ft_printf("\n\t {bggreen}PILE A{reset}\n\n");
-	// print_pile(pushswap_a.pile);
-
-	// ft_printf("\n\t {bgred}STACK B{reset}\n\n");
-	// print_all_stack(pushswap_b.stack);
-	// ft_printf("\n\t {bggreen}PILE B{reset}\n\n");
-	// print_pile(pushswap_b.pile);
-
-	memdel((void **)&datas);
-	stackdel(&pushswap_a.stack);
-	piledel(&pushswap_a.pile);
-	piledel(&pushswap_b.pile);
-	return (0);
+	size_args = 0;
+	array_args = 0;
+	array_args = parse_args(ac, av, & ptr_a, & size_args);
+	if (!array_args || !ptr_a.pile || !ptr_a.pile->prev)
+		exit_free_all(ptr_a, ptr_b, array_args);
+	if (case_pile_size_2(& ptr_a))
+		exit_free_all(ptr_a, ptr_b, array_args);
+	bubblesort(array_args, size_args);
+	do_median(& ptr_a, & ptr_b, array_args);
+	ft_memdel((void **)& array_args);
+	algo(& ptr_a, & ptr_b);
+	if (!pile_is_sorted(ptr_a.pile))
+		rearrange(& ptr_a);
+	exit_free_all(ptr_a, ptr_b, 0);
 }
-// 126925

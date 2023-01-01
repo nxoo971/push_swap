@@ -3,133 +3,103 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nxoo <nxoo@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: jewancti <jewancti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/30 00:42:19 by nxoo              #+#    #+#             */
-/*   Updated: 2022/10/31 01:49:33 by nxoo             ###   ########.fr       */
+/*   Created: 2022/12/02 01:58:21 by jewancti          #+#    #+#             */
+/*   Updated: 2022/12/08 20:30:29 by jewancti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+#define MAX_SIZE	'r' + 'r' + 'a' + 1
+
 static \
-void	sub_exec_args_according_to_abc(t_push_swap *ptr, int a, int b, int c)
+int	sum(const char *actions)
 {
-	if (a < b && a < c && b > c)
-		exec_args("rrasa", ptr);
-	else if (a > b && a > c)
+	int	i;
+	int	sum;
+
+	sum = 0;
+	i = 0;
+	while (actions[i])
 	{
-		if (b < c)
-			exec_args("ra", ptr);
-		else
-			exec_args("sarra", ptr);
+		if (actions[i] != 's' && actions[i] != 'a' \
+			&& actions[i] != 'r')
+			return (-1);
+		sum += actions[i];
+		if (actions[i] == 'a')
+			break ;
+		i++;
 	}
-	else
-	{
-		if (a > c)
-			exec_args("rra", ptr);
-		else
-			exec_args("sa", ptr);
-	}
+	return (sum);
 }
 
-void	sort_3(t_push_swap *ptr)
+//static
+int	exec_actions(const char *actions, t_push_swap *ptr)
+{
+	static const t_move	move[MAX_SIZE] = {
+	['s' + 'a'] = & s,
+	['r' + 'a'] = & rotate,
+	['r' + 'r' + 'a'] = & r_rotate,
+	};
+	const char			*tmp;
+	int					index;
+
+	while (actions)
+	{
+		tmp = ft_strchr(actions, 'a');
+		if (!tmp)
+			break ;
+		index = sum(actions);
+		if (index >= MAX_SIZE || index == -1)
+			return (-1);
+		move[index](ptr);
+		ft_putnendl(actions, tmp - actions + 1);
+		actions = tmp + 1;
+	}
+	return (0);
+}
+
+int	sort_3(t_push_swap *ptr)
 {
 	t_pile	*pile;
-	t_stack	*stack;
 	int		a;
 	int		b;
 	int		c;
 
-	pile = ptr->pile;
-	stack = ptr->stack;
-	a = pile->first->data;
-	b = pile->first->prev->data;
-	c = pile->last->data;
-	if (a < b && a < c && b < c)
-		return ;
-	sub_exec_args_according_to_abc(ptr, a, b, c);
+	pile = ptr->stack->first;
+	if (ptr->stack->size != 3)
+		return (-1);
+	a = pile->data;
+	b = pile->prev->data;
+	c = pile->prev->prev->data;
+	if (b > a && c > b)
+		return (0);
+	if (a < b && b > c && c > a)
+		return (exec_actions("rrasa", ptr));
+	if (a > b && b < c && c > a)
+		return (exec_actions("sa", ptr));
+	if (a < b && b > c && c < a)
+		return (exec_actions("rra", ptr));
+	if (a > b && b < c && c < a)
+		return (exec_actions("ra", ptr));
+	return (exec_actions("sarra", ptr));
 }
 
-int		start_toporbottom(t_pile *tosearch, t_pile *tofind)
+void	bubblesort(const int *tab, const int size)
 {
-	t_stack	*stack;
-	int	index;
-	int	data;
+	int	i;
+	int	j;
 
-	index = 0;
-	data = tofind->first->data;
-	stack = tosearch->first;
-	while (stack)
+	i = -1;
+	while (++i < size)
 	{
-		if (stack->data == data)
-			break ;
-		stack = stack->prev;
-		index++;
-	}
-	return (tosearch->length / 2 > index);
-}
-
-int		exec_ra_rra(t_push_swap *a, t_push_swap *b, void (f)(t_push_swap *))
-{
-	int	rotated;
-
-	rotated = 0;
-	while (b->pile->first->data > a->pile->first->data)
-	{
-		f(a);
-		rotated++;
-	}
-	return (rotated);
-}
-
-int		is_minimum(int data, t_stack *stack)
-{
-	while (stack)
-	{
-		if (stack->data < data)
-			return (0);
-		stack = stack->prev;
-	}
-	return (1);
-}
-
-void	sort(t_push_swap *a, t_push_swap *b)
-{
-	int	rotated;
-	int	already; // to avoid starting is_minimum function and his search in the entire Pile B ..
-
-	while (a->pile->length > 3)
-		push(b, a);
-	sort_3(a);
-	already = 0;
-	while (b->pile->first)
-	{
-		if (b->pile->first->data > a->pile->last->data)
+		j = i;
+		while (++j < size)
 		{
-			push(a, b);
-			rotate(a);
-		}// tous les autres "cas" ici
-		else
-		{
-			if (!already && is_minimum(b->pile->first->data, b->pile->first->prev) && b->pile->first->data > a->pile->first->data)
-			{
-				already++;
-				push(a, b);
-				swap(a);
-			}
-			else
-			{
-				if (!start_toporbottom(a->pile, b->pile))
-					rotated = exec_ra_rra(a, b, & rotate);
-				else
-					rotated = exec_ra_rra(a, b, & r_rotate);
-
-				push(a, b);
-				while (--rotated >= 0)
-					r_rotate(a);
-			}
-			
+			if (tab[i] > tab[j])
+				ft_swap((void *)& tab[i], (void *)& tab[j], sizeof(int));
 		}
 	}
 }
